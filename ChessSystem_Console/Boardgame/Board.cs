@@ -18,10 +18,42 @@
             return Pieces[row, column];
         }
 
+        public Piece Piece(Position position)
+        {
+            return Pieces[position.Row, position.Column];
+        }
+
         public void PlacePiece(Piece piece, Position position)
         {
+            if (IsThereAPiece(position))
+            {
+                throw new BoardException("There is already a piece on position " + position);
+            }
             Pieces[position.Row, position.Column] = piece;
             piece.Position = position;
+        }
+
+        public bool IsThereAPiece(Position position)
+        {
+            ConfirmPosition(position);
+            return Piece(position) != null;
+        }
+
+        public bool ValidPosition (Position position)
+        {
+            if (position.Row < 0 || position.Row >= Rows || position.Column < 0 || position.Column >= Columns)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void ConfirmPosition (Position position)
+        {
+            if (!ValidPosition(position))
+            {
+                throw new BoardException("Invalid position!");
+            }
         }
     }
 }

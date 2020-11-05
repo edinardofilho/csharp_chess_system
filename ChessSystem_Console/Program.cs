@@ -9,14 +9,21 @@ namespace ChessSystem_Console
         static void Main(string[] args)
         {
             Board board = new Board(8, 8);
+            try
+            {
+                board.PlacePiece(new Tower(board, Color.Black), new Position(0, 0));
+                board.PlacePiece(new Tower(board, Color.Black), new Position(1, 3));
+                board.PlacePiece(new King(board, Color.Black), new Position(2, 4));
+                board.PlacePiece(new Tower(board, Color.Black), new Position(2, 9));
 
-            board.PlacePiece(new Tower(board, Color.Black), new Position(0, 0));
-            board.PlacePiece(new Tower(board, Color.Black), new Position(1, 3));
-            board.PlacePiece(new King(board, Color.Black), new Position(2, 4));
+                UI.PrintBoard(board);
 
-            UI.PrintBoard(board);
-
-            Console.ReadLine();
+                Console.ReadLine();
+            }
+            catch (BoardException e)
+            {
+                Console.WriteLine(e.Message);
+            }          
         }
     }
 }
