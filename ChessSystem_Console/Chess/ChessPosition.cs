@@ -2,7 +2,7 @@
 
 namespace Chess
 {
-    public class ChessPosition
+    class ChessPosition
     {
         public char Column { get; set; }
         public int Row { get; set; }

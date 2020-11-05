@@ -2,7 +2,7 @@
 
 namespace Boardgame
 {
-    public class BoardException : ApplicationException
+    class BoardException : ApplicationException
     {
         public BoardException(string message) : base(message)
         {

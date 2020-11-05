@@ -1,9 +1,10 @@
 ﻿using Boardgame;
+using Chess;
 using System;
 
 namespace ChessSystem_Console
 {
-    public class UI
+    class UI
     {
         public static void PrintBoard(Board board)
         {
@@ -27,6 +28,14 @@ namespace ChessSystem_Console
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
+        }
+
+        public static ChessPosition ReadChessPosition()
+        {
+            string s = Console.ReadLine();
+            char column = s[0];
+            int row = int.Parse(s[1].ToString());
+            return new ChessPosition(column, row);
         }
 
         public static void PrintPiece(Piece piece)

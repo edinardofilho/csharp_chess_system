@@ -1,6 +1,7 @@
 ﻿using Boardgame;
 using Chess;
 using System;
+using System.Collections.Concurrent;
 
 namespace ChessSystem_Console
 {
@@ -10,17 +11,22 @@ namespace ChessSystem_Console
         {
             try
             {
-                Board board = new Board(8, 8);
+                ChessMatch chessMatch = new ChessMatch();
 
-                board.PlacePiece(new Tower(board, Color.Black), new Position(0, 0));
-                board.PlacePiece(new Tower(board, Color.Black), new Position(1, 3));
-                board.PlacePiece(new King(board, Color.Black), new Position(0, 2));
+                while (!chessMatch.GameOver)
+                {
+                    Console.Clear();
+                    UI.PrintBoard(chessMatch.Board);
 
-                board.PlacePiece(new Tower(board, Color.White), new Position(6, 3));
-                board.PlacePiece(new Tower(board, Color.White), new Position(7, 4));
-                board.PlacePiece(new King(board, Color.White), new Position(6, 0));
+                    Console.WriteLine(); 
+                    Console.Write("Source: ");
+                    Position source = UI.ReadChessPosition().ToPosition();
+                    Console.Write("Target: ");
+                    Position target = UI.ReadChessPosition().ToPosition();
 
-                UI.PrintBoard(board);
+                    chessMatch.PeformMove(source, target);
+                }
+
             }
             catch (BoardException e)
             {

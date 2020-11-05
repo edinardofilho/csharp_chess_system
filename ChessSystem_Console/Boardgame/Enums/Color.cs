@@ -1,6 +1,6 @@
 ﻿namespace Boardgame
 {
-    public enum Color
+    enum Color
     {
         White,
         Black,

@@ -1,6 +1,6 @@
 ﻿namespace Boardgame
 {
-    public class Piece
+    class Piece
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
@@ -13,6 +13,11 @@
             Color = color;
             Board = board;
             MoveCount = 0;
+        }
+
+        public void IncreaseMoveCount()
+        {
+            MoveCount++;
         }
     }
 }

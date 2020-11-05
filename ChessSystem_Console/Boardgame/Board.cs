@@ -1,6 +1,6 @@
 ﻿namespace Boardgame
 {
-    public class Board
+    class Board
     {
         public int Rows { get; set; }
         public int Columns { get; set; }
@@ -31,6 +31,18 @@
             }
             Pieces[position.Row, position.Column] = piece;
             piece.Position = position;
+        }
+
+        public Piece RemovePiece(Position position)
+        {
+            if(Piece(position) == null)
+            {
+                return null;
+            }
+            Piece aux = Piece(position);
+            aux.Position = null;
+            Pieces[position.Row, position.Column] = null;
+            return aux;
         }
 
         public bool IsThereAPiece(Position position)
