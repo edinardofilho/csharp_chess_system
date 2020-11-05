@@ -17,5 +17,11 @@
         {
             return Pieces[row, column];
         }
+
+        public void PlacePiece(Piece piece, Position position)
+        {
+            Pieces[position.Row, position.Column] = piece;
+            piece.Position = position;
+        }
     }
 }
