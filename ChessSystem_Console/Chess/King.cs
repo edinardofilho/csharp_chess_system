@@ -21,7 +21,7 @@ namespace Chess
 
             //Above
             position.SetValues(Position.Row - 1, Position.Column);
-            if(Board.ValidPosition(position) && CanMove(position))
+            if (Board.ValidPosition(position) && CanMove(position))
             {
                 mat[position.Row, position.Column] = true;
             }

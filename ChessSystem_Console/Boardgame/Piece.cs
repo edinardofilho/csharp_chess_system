@@ -42,5 +42,10 @@
         {
             MoveCount++;
         }
+
+        public void DecreaseMoveCount()
+        {
+            MoveCount--;
+        }
     }
 }

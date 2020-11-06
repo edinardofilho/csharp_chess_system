@@ -35,7 +35,7 @@
 
         public Piece RemovePiece(Position position)
         {
-            if(Piece(position) == null)
+            if (Piece(position) == null)
             {
                 return null;
             }
@@ -51,7 +51,7 @@
             return Piece(position) != null;
         }
 
-        public bool ValidPosition (Position position)
+        public bool ValidPosition(Position position)
         {
             if (position.Row < 0 || position.Row >= Rows || position.Column < 0 || position.Column >= Columns)
             {
@@ -60,7 +60,7 @@
             return true;
         }
 
-        public void ConfirmPosition (Position position)
+        public void ConfirmPosition(Position position)
         {
             if (!ValidPosition(position))
             {

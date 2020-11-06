@@ -15,6 +15,10 @@ namespace ChessSystem_Console
             Console.WriteLine();
             Console.WriteLine("Turn: " + chessMatch.Turn);
             Console.WriteLine("Next player: " + chessMatch.CurrentPlayer);
+            if (chessMatch.Check)
+            {
+                Console.WriteLine("CHECK!");
+            }
         }
 
         public static void PrintCapturedPieces(ChessMatch chessMatch)
@@ -31,10 +35,10 @@ namespace ChessSystem_Console
             Console.WriteLine();
         }
 
-        public static void PrintList(List<Piece> list)
+        public static void PrintList(HashSet<Piece> list)
         {
             Console.Write("[");
-            foreach(Piece p in list)
+            foreach (Piece p in list)
             {
                 Console.Write(p + " ");
             }
@@ -60,7 +64,7 @@ namespace ChessSystem_Console
         {
             ConsoleColor originalBackgroundColor = Console.BackgroundColor;
             ConsoleColor newBackgroundColor = ConsoleColor.DarkGray;
-            
+
             for (int i = 0; i < board.Rows; i++)
             {
                 Console.Write(8 - i + " ");
@@ -70,7 +74,8 @@ namespace ChessSystem_Console
                     if (allowedPositions[i, j])
                     {
                         Console.BackgroundColor = newBackgroundColor;
-                    } else
+                    }
+                    else
                     {
                         Console.BackgroundColor = originalBackgroundColor;
                     }
