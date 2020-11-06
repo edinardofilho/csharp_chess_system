@@ -17,10 +17,8 @@ namespace ChessSystem_Console
                     try
                     {
                         Console.Clear();
-                        UI.PrintBoard(chessMatch.Board);
-                        Console.WriteLine();
-                        Console.WriteLine("Turn: " + chessMatch.Turn);
-                        Console.WriteLine("Next player: " + chessMatch.CurrentPlayer);
+
+                        UI.PrintMatch(chessMatch);
 
                         Console.WriteLine();
                         Console.Write("Source: ");

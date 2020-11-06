@@ -1,5 +1,7 @@
 ﻿using Boardgame;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Chess
 {
@@ -9,6 +11,8 @@ namespace Chess
         public int Turn { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public bool GameOver { get; set; }
+        public List<Piece> Pieces { get; set; }
+        public List<Piece> Captured { get; set; }
 
         public ChessMatch()
         {
@@ -16,24 +20,9 @@ namespace Chess
             Turn = 1;
             CurrentPlayer = Color.White;
             GameOver = false;
+            Pieces = new List<Piece>();
+            Captured = new List<Piece>();
             PlacePiece();
-        }
-
-        private void PlacePiece()
-        {
-            Board.PlacePiece(new Rook(Board, Color.White), new ChessPosition('c', 1).ToPosition());
-            Board.PlacePiece(new Rook(Board, Color.White), new ChessPosition('c', 2).ToPosition());
-            Board.PlacePiece(new Rook(Board, Color.White), new ChessPosition('d', 2).ToPosition());
-            Board.PlacePiece(new Rook(Board, Color.White), new ChessPosition('e', 2).ToPosition());
-            Board.PlacePiece(new Rook(Board, Color.White), new ChessPosition('e', 1).ToPosition());
-            Board.PlacePiece(new King(Board, Color.White), new ChessPosition('d', 1).ToPosition());
-
-            Board.PlacePiece(new Rook(Board, Color.Black), new ChessPosition('c', 7).ToPosition());
-            Board.PlacePiece(new Rook(Board, Color.Black), new ChessPosition('c', 8).ToPosition());
-            Board.PlacePiece(new Rook(Board, Color.Black), new ChessPosition('d', 7).ToPosition());
-            Board.PlacePiece(new Rook(Board, Color.Black), new ChessPosition('e', 7).ToPosition());
-            Board.PlacePiece(new Rook(Board, Color.Black), new ChessPosition('e', 8).ToPosition());
-            Board.PlacePiece(new King(Board, Color.Black), new ChessPosition('d', 8).ToPosition());
         }
 
         public void PerformMove(Position source, Position target)
@@ -42,6 +31,10 @@ namespace Chess
             piece.IncreaseMoveCount();
             Piece capturedPiece = Board.RemovePiece(target);
             Board.PlacePiece(piece, target);
+            if (capturedPiece != null)
+            {
+                Captured.Add(capturedPiece);
+            }
         }
 
         public void PerformChessMove(Position source, Position target)
@@ -85,6 +78,58 @@ namespace Chess
             {
                 CurrentPlayer = Color.White;
             }
+        }
+
+        public List<Piece> CapturedPieces(Color color)
+        {
+            List<Piece> aux = new List<Piece>();
+            foreach(Piece p in Captured)
+            {
+                if (p.Color == color)
+                {
+                    aux.Add(p);
+                }
+            }
+
+            return aux;
+        }
+
+        public List<Piece> AvailablePieces(Color color)
+        {
+            List<Piece> aux = new List<Piece>();
+            foreach (Piece p in Pieces)
+            {
+                if (p.Color == color)
+                {
+                    aux.Add(p);
+                }
+            }
+
+            aux.Except(CapturedPieces(color));
+            return aux;
+        }
+
+        public void PlaceNewPiece(char column, int row, Piece piece)
+        {
+            Board.PlacePiece(piece, new ChessPosition(column, row).ToPosition());
+            Pieces.Add(piece);
+        }
+
+        private void PlacePiece()
+        {
+            PlaceNewPiece('c', 1, new Rook(Board, Color.White));
+            PlaceNewPiece('c', 2, new Rook(Board, Color.White));
+            PlaceNewPiece('d', 2, new Rook(Board, Color.White));
+            PlaceNewPiece('e', 2, new Rook(Board, Color.White));
+            PlaceNewPiece('e', 1, new Rook(Board, Color.White));
+            PlaceNewPiece('d', 1, new King(Board, Color.White));
+
+            PlaceNewPiece('c', 7, new Rook(Board, Color.Black));
+            PlaceNewPiece('c', 8, new Rook(Board, Color.Black));
+            PlaceNewPiece('d', 7, new Rook(Board, Color.Black));
+            PlaceNewPiece('e', 7, new Rook(Board, Color.Black));
+            PlaceNewPiece('e', 8, new Rook(Board, Color.Black));
+            PlaceNewPiece('d', 8, new King(Board, Color.Black));
         }
     }
 }
