@@ -1,7 +1,6 @@
 ﻿using Boardgame;
 using Chess;
 using System;
-using System.Collections.Concurrent;
 
 namespace ChessSystem_Console
 {
@@ -21,6 +20,13 @@ namespace ChessSystem_Console
                     Console.WriteLine(); 
                     Console.Write("Source: ");
                     Position source = UI.ReadChessPosition().ToPosition();
+
+                    bool[,] allowedPositions = chessMatch.Board.Piece(source).PossibleMoves();
+
+                    Console.Clear();
+                    UI.PrintBoard(chessMatch.Board, allowedPositions);
+
+                    Console.WriteLine();
                     Console.Write("Target: ");
                     Position target = UI.ReadChessPosition().ToPosition();
 
