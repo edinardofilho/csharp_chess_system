@@ -36,12 +36,55 @@ namespace Chess
             Board.PlacePiece(new King(Board, Color.Black), new ChessPosition('d', 8).ToPosition());
         }
 
-        public void PeformMove(Position source, Position target)
+        public void PerformMove(Position source, Position target)
         {
             Piece piece = Board.RemovePiece(source);
             piece.IncreaseMoveCount();
             Piece capturedPiece = Board.RemovePiece(target);
             Board.PlacePiece(piece, target);
+        }
+
+        public void PerformChessMove(Position source, Position target)
+        {
+            PerformMove(source, target);
+            Turn++;
+            ChangePlayer();
+        }
+
+        public void CertifySource(Position position)
+        {
+            if (Board.Piece(position) == null)
+            {
+                throw new BoardException("There is no piece on choosen source position!");
+            }
+            if (CurrentPlayer != Board.Piece(position).Color)
+            {
+                throw new BoardException("Source piece is not yours!");
+            }
+            if (!Board.Piece(position).ThereIsPossibleMoves())
+            {
+                throw new BoardException("There are no possible moves for the choosen source piece!");
+            }
+        }
+
+        public void CertifyTarget(Position source, Position target)
+        {
+            if (!Board.Piece(source).AllowedPosition(target))
+            {
+                throw new BoardException("Invalid target position!");
+            }
+        }
+
+        private void ChangePlayer()
+        {
+            if (CurrentPlayer == Color.White)
+            {
+                CurrentPlayer = Color.Black;
+            }
+            else
+            {
+                CurrentPlayer = Color.White;
+            }
         }
     }
 }
