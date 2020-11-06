@@ -1,6 +1,5 @@
 ﻿using Boardgame;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Chess
 {
@@ -69,8 +68,16 @@ namespace Chess
             {
                 Check = false;
             }
-            Turn++;
-            ChangePlayer();
+
+            if (IsACheckMate(OpponentPlayer(CurrentPlayer)))
+            {
+                GameOver = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlayer();
+            }
         }
 
         public void CertifySource(Position position)
@@ -179,6 +186,39 @@ namespace Chess
                 }
             }
             return false;
+        }
+
+        public bool IsACheckMate(Color color)
+        {
+            if (!IsACheck(color))
+            {
+                return false;
+            }
+            foreach (Piece p in AvailablePieces(color))
+            {
+                bool[,] mat = p.PossibleMoves();
+
+                for (int i = 0; i < Board.Rows; i++)
+                {
+                    for (int j = 0; j < Board.Columns; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position source = p.Position;
+                            Position target = new Position(i, j);
+                            Piece capturedPiece = PerformMove(source, target);
+                            bool check = IsACheck(color);
+                            UndoMove(source, target, capturedPiece);
+                            if (!check)
+                            {
+                                return false;
+                            }
+
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         public void PlaceNewPiece(char column, int row, Piece piece)

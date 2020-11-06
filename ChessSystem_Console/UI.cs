@@ -14,10 +14,17 @@ namespace ChessSystem_Console
             PrintCapturedPieces(chessMatch);
             Console.WriteLine();
             Console.WriteLine("Turn: " + chessMatch.Turn);
-            Console.WriteLine("Next player: " + chessMatch.CurrentPlayer);
-            if (chessMatch.Check)
+            if (!chessMatch.GameOver)
             {
-                Console.WriteLine("CHECK!");
+                Console.WriteLine("Next player: " + chessMatch.CurrentPlayer);
+                if (chessMatch.Check)
+                {
+                    Console.WriteLine("CHECK!");
+                }
+            } else
+            {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("Winner: " + chessMatch.CurrentPlayer);
             }
         }
 
