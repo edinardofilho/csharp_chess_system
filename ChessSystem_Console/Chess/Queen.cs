@@ -19,7 +19,7 @@ namespace Chess
 
             Position position = new Position(0, 0);
 
-            //Above
+            // Above
             position.SetValues(Position.Row - 1, Position.Column);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -31,7 +31,7 @@ namespace Chess
                 position.Row--;
             }
 
-            //Right
+            // Right
             position.SetValues(Position.Row, Position.Column + 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -43,7 +43,7 @@ namespace Chess
                 position.Column++;
             }
 
-            //Below
+            // Below
             position.SetValues(Position.Row + 1, Position.Column);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -55,7 +55,7 @@ namespace Chess
                 position.Row++;
             }
 
-            //Left
+            // Left
             position.SetValues(Position.Row, Position.Column - 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -67,7 +67,7 @@ namespace Chess
                 position.Column--;
             }
 
-            //NO
+            // NO
             position.SetValues(Position.Row - 1, Position.Column - 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -80,7 +80,7 @@ namespace Chess
                 position.Column--;
             }
 
-            //NE
+            // NE
             position.SetValues(Position.Row - 1, Position.Column + 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -93,7 +93,7 @@ namespace Chess
                 position.Column++;
             }
 
-            //SE
+            // SE
             position.SetValues(Position.Row + 1, Position.Column + 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -106,7 +106,7 @@ namespace Chess
                 position.Column++;
             }
 
-            //SO
+            // SO
             position.SetValues(Position.Row + 1, Position.Column - 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {

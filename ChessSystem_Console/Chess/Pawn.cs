@@ -4,8 +4,11 @@ namespace Chess
 {
     class Pawn : Piece
     {
-        public Pawn(Board board, Color color) : base(board, color)
+        public ChessMatch ChessMatch { get; private set; }
+
+        public Pawn(Board board, Color color, ChessMatch chessMatch) : base(board, color)
         {
+            ChessMatch = chessMatch;
         }
 
         private bool ThereIsAnEnemy(Position position)

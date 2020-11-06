@@ -19,7 +19,7 @@ namespace Chess
 
             Position position = new Position(0, 0);
 
-            //NO
+            // NO
             position.SetValues(Position.Row - 1, Position.Column - 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -32,7 +32,7 @@ namespace Chess
                 position.Column--;
             }
 
-            //NE
+            // NE
             position.SetValues(Position.Row - 1, Position.Column + 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -45,7 +45,7 @@ namespace Chess
                 position.Column++;
             }
             
-            //SE
+            // SE
             position.SetValues(Position.Row + 1, Position.Column + 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
@@ -58,7 +58,7 @@ namespace Chess
                 position.Column++;
             }
             
-            //SO
+            // SO
             position.SetValues(Position.Row + 1, Position.Column - 1);
             while (Board.ValidPosition(position) && CanMove(position))
             {
