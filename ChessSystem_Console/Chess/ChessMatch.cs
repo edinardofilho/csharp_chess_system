@@ -150,6 +150,21 @@ namespace Chess
                 throw new BoardException("You can't put yourself in Check!");
             }
 
+            Piece p = Board.Piece(target);
+
+            // #Special move - En Passant
+            if(p is Pawn)
+            {
+                if ((p.Color == Color.White && target.Row == 0) || (p.Color == Color.Black && target.Row == 7))
+                {
+                    p = Board.RemovePiece(target);
+                    Pieces.Remove(p);
+                    Piece queen = new Queen(Board, p.Color);
+                    Board.PlacePiece(queen, target);
+                    Pieces.Add(queen);
+                }
+            }
+
             if (IsACheck(OpponentPlayer(CurrentPlayer)))
             {
                 Check = true;
@@ -158,7 +173,7 @@ namespace Chess
             {
                 Check = false;
             }
-
+            
             if (IsACheckMate(OpponentPlayer(CurrentPlayer)))
             {
                 GameOver = true;
@@ -169,13 +184,11 @@ namespace Chess
                 ChangePlayer();
             }
 
-            Piece piece = Board.Piece(target);
-
             // #Special move - En Passant
 
-            if (piece is Pawn && (target.Row == source.Row - 2 || target.Row == source.Row + 2))
+            if (p is Pawn && (target.Row == source.Row - 2 || target.Row == source.Row + 2))
             {
-                EnPassantVulnerable = piece;
+                EnPassantVulnerable = p;
             }
             else
             {
