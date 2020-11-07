@@ -12,6 +12,7 @@ namespace Chess
         public bool Check { get; private set; }
         public HashSet<Piece> Pieces { get; private set; }
         public HashSet<Piece> Captured { get; private set; }
+        public Piece EnPassantVulnerable { get; private set; }
 
         public ChessMatch()
         {
@@ -22,6 +23,7 @@ namespace Chess
             Check = false;
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
+            EnPassantVulnerable = null;
             PlacePiece();
         }
 
@@ -58,6 +60,26 @@ namespace Chess
                 rook.IncreaseMoveCount();
 
                 Board.PlacePiece(rook, rookTarget);
+            }
+
+            // #Special move - En Passant
+
+            if (p is Pawn)
+            {
+                if (source.Column != target.Column && capturedPiece == null)
+                {
+                    Position pawnPosition;
+                    if (p.Color == Color.White)
+                    {
+                        pawnPosition = new Position(target.Row + 1, target.Column);
+                    }
+                    else
+                    {
+                        pawnPosition = new Position(target.Row - 1, target.Column);
+                    }
+                    capturedPiece = Board.RemovePiece(pawnPosition);
+                    Captured.Add(capturedPiece);
+                }
             }
 
             return capturedPiece;
@@ -97,6 +119,26 @@ namespace Chess
 
                 Board.PlacePiece(rook, rookSource);
             }
+
+            // #Special move - En Passant
+
+            if (p is Pawn)
+            {
+                if (source.Column != target.Column && capturedPiece == EnPassantVulnerable)
+                {
+                    Piece pawn = Board.RemovePiece(target);
+                    Position pawnPosition;
+                    if (p.Color == Color.White)
+                    {
+                        pawnPosition = new Position(3, target.Column);
+                    }
+                    else
+                    {
+                        pawnPosition = new Position(4, target.Column);
+                    }
+                    Board.PlacePiece(pawn, pawnPosition);
+                }
+            }
         }
 
         public void PerformChessMove(Position source, Position target)
@@ -125,6 +167,19 @@ namespace Chess
             {
                 Turn++;
                 ChangePlayer();
+            }
+
+            Piece piece = Board.Piece(target);
+
+            // #Special move - En Passant
+
+            if (piece is Pawn && (target.Row == source.Row - 2 || target.Row == source.Row + 2))
+            {
+                EnPassantVulnerable = piece;
+            }
+            else
+            {
+                EnPassantVulnerable = null;
             }
         }
 
